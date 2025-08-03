@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type Image = {
 	id: string;
@@ -34,6 +34,14 @@ export const useImgToPdf = () => {
 		},
 		[],
 	);
+
+  useEffect(() => {
+    return () => {
+      images.forEach((img) => {
+        URL.revokeObjectURL(img.url)
+      })
+    }
+  }, [images])
 
 	return {
 		inputRef,
