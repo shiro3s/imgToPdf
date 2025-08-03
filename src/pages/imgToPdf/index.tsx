@@ -12,9 +12,8 @@ export const ImgToPdfPage: React.FC = () => {
 		handleDragStart,
 		handleDrop,
 		handleRemove,
+		handleGenPdf,
 	} = useImgToPdf();
-
-	console.log(images)
 
 	return (
 		<div className={styles.container}>
@@ -35,7 +34,12 @@ export const ImgToPdfPage: React.FC = () => {
 						<span>追加</span>
 					</label>
 
-					<button type="button" className={styles.btn}>
+					<button
+						type="button"
+						className={styles.btn}
+						onClick={handleGenPdf}
+						disabled={images.length === 0}
+					>
 						<Download />
 						<span>ダウンロード</span>
 					</button>
