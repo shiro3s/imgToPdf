@@ -5,8 +5,16 @@ import styles from "./style.module.css";
 import { useImgToPdf } from "./useImgToPdf";
 
 export const ImgToPdfPage: React.FC = () => {
-	const { inputRef, handleFileChange, images } = useImgToPdf();
-  console.log(images)
+	const {
+		handleFileChange,
+		images,
+		handleDragOver,
+		handleDragStart,
+		handleDrop,
+		handleRemove,
+	} = useImgToPdf();
+
+	console.log(images)
 
 	return (
 		<div className={styles.container}>
@@ -21,7 +29,6 @@ export const ImgToPdfPage: React.FC = () => {
 							accept="image/*"
 							className={styles.input}
 							id="inputFile"
-							ref={inputRef}
 							onChange={handleFileChange}
 						/>
 						<Plus />
@@ -36,12 +43,21 @@ export const ImgToPdfPage: React.FC = () => {
 			</header>
 
 			<div className={styles.content}>
-				{images.map((image) => (
+				{images.map((image, index) => (
 					<Card
 						key={image.id}
-						id={image.id}
+						file={image.file}
 						name={image.name}
-						url={image.url}
+						onDragOver={handleDragOver}
+						onDragStart={() => {
+							handleDragStart(index);
+						}}
+						onDrop={(event) => {
+							handleDrop(event, index);
+						}}
+						onRemove={() => {
+							handleRemove(image.id);
+						}}
 					/>
 				))}
 			</div>
